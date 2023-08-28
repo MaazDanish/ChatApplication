@@ -1,7 +1,10 @@
 const express = require('express');
+const path = require('path');
+const fs = require('fs');
 
 const route = express.Router();
-const fs = require('fs');
+
+const dirName = require('../utility/path');
 
 route.get('/chatRoom', (req, res, next) => {
     fs.readFile('data.txt', (err, data) => {
@@ -9,7 +12,7 @@ route.get('/chatRoom', (req, res, next) => {
             console.log(err);
             data = "Cannot find any chat";
         }
-        res.send(`${data} <form onsubmit="document.querySelector('#username').value=localStorage.getItem('userName')" action="/chatRoom" method="POST"><input type="text" name="message" id="message" placeholder="message"> <input type="hidden" id="username" name="username"> <button type="submit">SEND</button> </form> `);
+        res.sendFile(path.join(dirName,'views','chatPage.html'));
     })
 })
 
